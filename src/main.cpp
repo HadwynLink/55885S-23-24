@@ -79,6 +79,7 @@ void opcontrol() {
 	pros::Motor right_mtr(9);
 	pros::Motor left_mtr2(8);
 	pros::Motor right_mtr2(7);
+	pros::Motor mid_mtr(1);
 
 	
 
@@ -86,13 +87,16 @@ void opcontrol() {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
-		pros::lcd::print(0, "Balls");
-		int power = master.get_analog(ANALOG_LEFT_X);
-    	int turn = master.get_analog(ANALOG_LEFT_Y);
-		left_mtr.move(power+turn);
-		right_mtr.move(power-turn);
-		left_mtr2.move(power+turn);
-		right_mtr2.move(power-turn);
+		pros::lcd::print(0, "Balls 2");
+		int forward = master.get_analog(ANALOG_LEFT_X);
+    	int side = master.get_analog(ANALOG_LEFT_Y);
+		left_mtr.move(forward);
+		right_mtr.move(forward);
+		left_mtr2.move(forward);
+		right_mtr2.move(forward);
+		mid_mtr.move(side);
+
+
 
 		pros::delay(20);
 	}
