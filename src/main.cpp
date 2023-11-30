@@ -1,5 +1,17 @@
 #include "main.h"
 
+//TODO
+//---------------------------------------------------------------------
+//Auton selector for competition
+//Autons in general
+//**this will be a lot cleaner looking if we make a couple functions(like catapult stuff) to call during auton
+//**additionally we'll want to use a separate file for auton stuff
+//**look into sensors for things like odom and whatnot, so we can make our bot track better
+//**Grant once again pulls through with a few videos on basic auton
+//PID control loop stuff, there's a video on grant's website explaining them
+//
+
+
 /**
  * A callback function for LLEMU's center button.
  *
@@ -74,6 +86,7 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+	//gotta move a lot of this stuff to initialize() function, and also use proper #define for the port numbers
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 	pros::Motor left_mtr(10);
 	pros::Motor right_mtr(9);
@@ -81,7 +94,12 @@ void opcontrol() {
 	pros::Motor right_mtr2(7);
 	pros::Motor mid_mtr(1);
 
-	
+	//pneumatic pistons out
+	pros::ADIDigitalOut piston1(11);
+	pros::ADIDigitalOut piston2(12);
+
+	piston1.set_value(true);
+	piston2.set_value(true);
 
 	while (true) {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
@@ -95,7 +113,17 @@ void opcontrol() {
 		left_mtr2.move(forward);
 		right_mtr2.move(forward);
 		mid_mtr.move(side);
-
+		
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A))
+		{
+			//When pistons are activated, the catapult should tilt back
+			//Deactivating the pistons == the rubber bands snap the catapult into shooting
+			piston1.set_value(false);
+			piston2.set_value(false);
+			pros::delay(1000); //fine tune this later
+			piston1.set_value(true);
+			piston2.set_value(true); //I shudder to think what kind of horrors keeping these pistons on for the majority of a match will cause, but I guess we're going to find out
+		}
 
 
 		pros::delay(20);
