@@ -92,7 +92,6 @@ void opcontrol() {
 	pros::Motor right_mtr(9);
 	pros::Motor left_mtr2(8);
 	pros::Motor right_mtr2(7);
-	pros::Motor mid_mtr(1);
 
 	//pneumatic pistons out
 	pros::ADIDigitalOut piston1(11);
@@ -108,11 +107,13 @@ void opcontrol() {
 		pros::lcd::print(0, "Balls 2");
 		int forward = master.get_analog(ANALOG_LEFT_X);
     	int side = master.get_analog(ANALOG_LEFT_Y);
-		left_mtr.move(forward);
-		right_mtr.move(forward);
-		left_mtr2.move(forward);
-		right_mtr2.move(forward);
-		mid_mtr.move(side);
+		int left = forward + side;
+		int right = forward - side;
+		left_mtr.move(left);
+		right_mtr.move(left);
+		left_mtr2.move(right);
+		right_mtr2.move(right); //once again, need to retune the basic motor stuff
+		//also last time I tested the movement it was drifting hard. Probably something to do with uneven motor torque, but testing some stuff here wouldn't be a bad idea.
 		
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A))
 		{
