@@ -70,7 +70,13 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() 
+{
+
+
+
+
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -88,23 +94,21 @@ void autonomous() {}
 void opcontrol() {
 	//gotta move a lot of this stuff to initialize() function, and also use proper #define for the port numbers
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor left_mtr(10);
-	pros::Motor right_mtr(9);
-	pros::Motor left_mtr2(8);
-	pros::Motor right_mtr2(7);
+	pros::Motor left_mtr(3);
+	pros::Motor right_mtr(5);
+	pros::Motor left_mtr2(6);
+	pros::Motor right_mtr2(8);
 
 	//pneumatic pistons out
-	pros::ADIDigitalOut piston1(11);
-	pros::ADIDigitalOut piston2(12);
+	pros::ADIDigitalOut piston('A');
 
-	piston1.set_value(true);
-	piston2.set_value(true);
+	piston.set_value(true);
 
 	while (true) {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
-		pros::lcd::print(0, "Balls 2");
+		pros::lcd::print(0, "Isaac is dead and we have killed him");
 		int forward = master.get_analog(ANALOG_LEFT_X);
     	int side = master.get_analog(ANALOG_LEFT_Y);
 		int left = forward + side;
@@ -113,17 +117,14 @@ void opcontrol() {
 		right_mtr.move(left);
 		left_mtr2.move(right);
 		right_mtr2.move(right); //once again, need to retune the basic motor stuff
-		//also last time I tested the movement it was drifting hard. Probably something to do with uneven motor torque, but testing some stuff here wouldn't be a bad idea.
-		
+				
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A))
 		{
 			//When pistons are activated, the catapult should tilt back
 			//Deactivating the pistons == the rubber bands snap the catapult into shooting
-			piston1.set_value(false);
-			piston2.set_value(false);
+			piston.set_value(false);
 			pros::delay(1000); //fine tune this later
-			piston1.set_value(true);
-			piston2.set_value(true); //I shudder to think what kind of horrors keeping these pistons on for the majority of a match will cause, but I guess we're going to find out
+			piston.set_value(true); //I shudder to think what kind of horrors keeping these pistons on for the majority of a match will cause, but I guess we're going to find out
 		}
 
 

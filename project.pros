@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "project",
+    "project_name": "55885S",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -309,7 +309,9 @@
       }
     },
     "upload_options": {
-      "after": "run"
+      "after": "screen",
+      "description": "55885S' code lmao",
+      "icon": "ufo"
     }
   }
 }
