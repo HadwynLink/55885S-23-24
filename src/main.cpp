@@ -36,7 +36,8 @@ void on_center_button() {
  */
 void initialize() {
 	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
+	pros::lcd::set_text(1, "strokama!");
+
 
 	pros::lcd::register_btn1_cb(on_center_button);
 }
@@ -70,13 +71,7 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() 
-{
-
-
-
-
-}
+void autonomous() {}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -92,6 +87,7 @@ void autonomous()
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+	
 	//gotta move a lot of this stuff to initialize() function, and also use proper #define for the port numbers
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 	pros::Motor left_mtr(3);
@@ -102,18 +98,15 @@ void opcontrol() {
 	//pneumatic pistons out
 	pros::ADIDigitalOut piston('A');
 
-	piston.set_value(true);
-
 	while (true) {
-		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
+				pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
-		pros::lcd::print(0, "Isaac is dead and we have killed him");
 		int forward = master.get_analog(ANALOG_LEFT_X);
     	int side = master.get_analog(ANALOG_LEFT_Y);
 		int left = forward + side;
 		int right = forward - side;
-		left_mtr.move(left);
+		left_mtr.move(left); 
 		right_mtr.move(left);
 		left_mtr2.move(right);
 		right_mtr2.move(right); //once again, need to retune the basic motor stuff
@@ -122,12 +115,12 @@ void opcontrol() {
 		{
 			//When pistons are activated, the catapult should tilt back
 			//Deactivating the pistons == the rubber bands snap the catapult into shooting
+			pros::lcd::set_text(0, "Isaac is dead and we have killed him");
 			piston.set_value(false);
 			pros::delay(1000); //fine tune this later
 			piston.set_value(true); //I shudder to think what kind of horrors keeping these pistons on for the majority of a match will cause, but I guess we're going to find out
 		}
 
-
-		pros::delay(20);
+		pros::delay(20); 
 	}
 }
