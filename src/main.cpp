@@ -1,15 +1,18 @@
 #include "main.h"
+#include "autons.h"
 
 //TODO
 //---------------------------------------------------------------------
 //Auton selector for competition
 //Autons in general
 //**this will be a lot cleaner looking if we make a couple functions(like catapult stuff) to call during auton
-//**additionally we'll want to use a separate file for auton stuff
+//**additionally we'll want to use a separate file for auton stuff -- DONE
 //**look into sensors for things like odom and whatnot, so we can make our bot track better
 //**Grant once again pulls through with a few videos on basic auton
-//PID control loop stuff, there's a video on grant's website explaining them
+//PID control loop, there's a video on grant's website explaining them
 //
+
+int autonMode = 0;
 
 
 /**
@@ -23,6 +26,7 @@ void on_center_button() {
 	pressed = !pressed;
 	if (pressed) {
 		pros::lcd::set_text(2, "I was pressed!");
+		autonMode = 1;
 	} else {
 		pros::lcd::clear_line(2);
 	}
@@ -71,7 +75,18 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() 
+{
+	if (autonMode == 0)
+	{
+		Auton1();
+	}
+	else if (autonMode == 1)
+	{
+		Auton2();
+	}
+
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
