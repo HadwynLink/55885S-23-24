@@ -1,6 +1,8 @@
 #include "main.h"
 #include "autons.h"
 
+#define SPEED 0.5
+
 //TODO
 //---------------------------------------------------------------------
 //Auton selector for competition
@@ -105,35 +107,33 @@ void opcontrol() {
 	
 	//gotta move a lot of this stuff to initialize() function, and also use proper #define for the port numbers
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor left_mtr(3);
-	pros::Motor right_mtr(5);
-	pros::Motor left_mtr2(6);
-	pros::Motor right_mtr2(8);
+	pros::Motor left_mtr(11);
+	pros::Motor right_mtr(15);
+	pros::Motor left_mtr2(13);
+	pros::Motor right_mtr2(20);
 
-	//pneumatic pistons out
-	pros::ADIDigitalOut piston('A');
+	pros::Motor cata_mtr(17);
 
 	while (true) {
 				pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
-		int forward = master.get_analog(ANALOG_LEFT_X);
+		int forward = master.get_analog(ANALOG_RIGHT_X);
     	int side = master.get_analog(ANALOG_LEFT_Y);
-		int left = forward + side;
-		int right = forward - side;
-		left_mtr.move(left); 
-		right_mtr.move(left);
-		left_mtr2.move(right);
-		right_mtr2.move(right); //once again, need to retune the basic motor stuff
+		int left = (forward - side) * SPEED;
+		int right = (forward + side) * SPEED;
+		left_mtr.move(right); 
+		right_mtr.move(right);
+		left_mtr2.move(left);
+		right_mtr2.move(left); //once again, need to retune the basic motor stuff
 				
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A))
 		{
-			//When pistons are activated, the catapult should tilt back
-			//Deactivating the pistons == the rubber bands snap the catapult into shooting
-			pros::lcd::set_text(0, "Isaac is dead and we have killed him");
-			piston.set_value(false);
-			pros::delay(1000); //fine tune this later
-			piston.set_value(true); //I shudder to think what kind of horrors keeping these pistons on for the majority of a match will cause, but I guess we're going to find out
+			cata_mtr.move(-100);
+		}
+		else
+		{
+			cata_mtr.move(0);
 		}
 
 		pros::delay(20); 
