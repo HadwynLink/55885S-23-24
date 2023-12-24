@@ -27,9 +27,14 @@ void on_center_button() {
 	static bool pressed = false;
 	pressed = !pressed;
 	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-		autonMode = 1;
-	} else {
+		autonMode++;
+		if (autonMode == 4)
+		{
+			autonMode = 0;
+		}
+		pros::lcd::set_text(2, "Current Auton: " + autonMode);
+	} 
+	else {
 		pros::lcd::clear_line(2);
 	}
 }
@@ -87,6 +92,15 @@ void autonomous()
 	{
 		Auton2();
 	}
+	else if (autonMode == 2)
+	{
+		Auton3();
+	}
+	else if (autonMode == 3)
+	{
+		Auton4();
+	}
+	
 
 }
 
