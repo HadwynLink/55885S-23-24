@@ -22,6 +22,24 @@
 
     pros::Motor cata_mtr(17);
 
+void AutoCatapult(int count)
+{
+    for (int i = 0; i < count; i++)
+    {
+        cata_mtr.move(100);
+        pros::delay(300);
+        cata_mtr.move(0);
+        pros::delay(100);
+    }
+}
+void DriveTrain(double LF, double RF, double LB, double RB)
+{
+    left_mtr.move(LF);
+	right_mtr.move(RF);
+    left_mtr2.move(LB);
+	right_mtr2.move(RB);
+}
+
 void Auton1() //blue, goal side
 {
     pros::lcd::set_text(1, "Auton 1 running!");
@@ -103,23 +121,7 @@ void Auton4() //red, opposing side
     DriveTrain(0,0,0,0);
 }
 
-void AutoCatapult(int count)
-{
-    for (int i = 0; i < count; i++)
-    {
-        cata_mtr.move(100);
-        pros::delay(300);
-        cata_mtr.move(0);
-        pros::delay(100);
-    }
-}
-void DriveTrain(double LF, double RF, double LB, double RB)
-{
-    left_mtr.move(LF);
-	right_mtr.move(RF);
-    left_mtr2.move(LB);
-	right_mtr2.move(RB);
-}
+
 
 void AutonSkills()
 {
