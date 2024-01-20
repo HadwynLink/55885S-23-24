@@ -32,7 +32,23 @@ void on_center_button() {
 		{
 			autonMode = 0;
 		}
-		pros::lcd::set_text(2, "Current Auton: " + autonMode);
+		switch (autonMode)
+		{
+		case 0:
+			pros::lcd::set_text(2, "Current Auton: Blue Offense");
+			break;
+		case 1:
+			pros::lcd::set_text(2, "Current Auton: Red Offense");
+			break;
+		case 2:
+			pros::lcd::set_text(2, "Current Auton: Blue Defense");
+			break;
+		case 3:
+			pros::lcd::set_text(2, "Current Auton: Red Offense");
+			break;
+		default:
+			break;
+		}
 	} 
 	else {
 		pros::lcd::clear_line(2);
@@ -69,7 +85,14 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() 
+{
+		pros::lcd::initialize();
+	pros::lcd::set_text(1, "Init Auton!");
+
+
+	pros::lcd::register_btn1_cb(on_center_button);
+}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -121,10 +144,10 @@ void opcontrol() {
 	
 	//gotta move a lot of this stuff to initialize() function, and also use proper #define for the port numbers
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor left_mtr(11);
-	pros::Motor right_mtr(15);
-	pros::Motor left_mtr2(13);
-	pros::Motor right_mtr2(20);
+	pros::Motor left_mtr(15);
+	pros::Motor right_mtr(11);
+	pros::Motor left_mtr2(20);
+	pros::Motor right_mtr2(13);
 
 	pros::Motor cata_mtr(17);
 
@@ -136,10 +159,10 @@ void opcontrol() {
     	int side = master.get_analog(ANALOG_LEFT_Y);
 		int left = (forward - side) * SPEED;
 		int right = (forward + side) * SPEED;
-		left_mtr.move(right); 
+		left_mtr.move(left); 
 		right_mtr.move(right);
 		left_mtr2.move(left);
-		right_mtr2.move(left); //once again, need to retune the basic motor stuff
+		right_mtr2.move(right); //once again, need to retune the basic motor stuff
 				
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A))
 		{

@@ -26,8 +26,8 @@ void AutoCatapult(int count)
 {
     for (int i = 0; i < count; i++)
     {
-        cata_mtr.move(100);
-        pros::delay(300);
+        cata_mtr.move(-100);
+        pros::delay(1250);
         cata_mtr.move(0);
         pros::delay(100);
     }
@@ -39,22 +39,44 @@ void DriveTrain(double LF, double RF, double LB, double RB)
     left_mtr2.move(LB);
 	right_mtr2.move(RB);
 }
+void DriveRot(float degrees, double speed)
+{
+    left_mtr.move_relative(degrees, speed);
+	right_mtr.move_relative(degrees, speed);
+    left_mtr2.move_relative(degrees, speed);
+	right_mtr2.move_relative(degrees, speed);
+}
+
+void Auton0() //Calibration Auton
+{
+    //Move 1 tile back
+    DriveTrain(50,-50,50,-50);
+    pros::delay(600);
+    DriveTrain(0,0,0,0);
+    pros::delay(500);
+    //Move 1 tile forward
+    DriveTrain(-50,50,-50,50);
+    pros::delay(600);
+    DriveTrain(0,0,0,0);
+    pros::delay(500);
+    //90 degree turn
+    DriveRot((90*5), 50);
+    pros::delay(700);
+    //DriveTrain(0,0,0,0);
+    pros::delay(500);
+    //180 degree turn
+    DriveRot(-(90*5), 50);
+    pros::delay(1400);
+    DriveTrain(0,0,0,0);
+    pros::delay(500);
+}
 
 void Auton1() //blue, goal side
 {
     pros::lcd::set_text(1, "Auton 1 running!");
 
-    //turn towards goal 
-    DriveTrain(50,-50,50,-50);
-    pros::delay(500);
-    //move forwards
-    DriveTrain(50,50,50,50);
-    pros::delay(500);
-    //turn towards elevation bar
-    DriveTrain(-50,50,-50,50);
-    pros::delay(500);
-    //move forwards
-    DriveTrain(50,50,50,50);
+    //forward 1 tile
+    DriveTrain(-127,127,-127,127);
     pros::delay(500);
     //STOP GORDON
     DriveTrain(0,0,0,0);
@@ -64,17 +86,8 @@ void Auton2() //red, goal side
 {
     pros::lcd::set_text(1, "Auton 2 running!");
 
-    //turn towards goal 
-    DriveTrain(-50,50,-50,50);
-    pros::delay(500);
-    //move forwards
-    DriveTrain(50,50,50,50);
-    pros::delay(500);
-    //turn towards elevation bar
-    DriveTrain(50,-50,50,-50);
-    pros::delay(500);
-    //move forwards
-    DriveTrain(50,50,50,50);
+    //forward 1 tile
+    DriveTrain(-127,127,-127,127);
     pros::delay(500);
     //STOP GORDON
     DriveTrain(0,0,0,0);
@@ -90,17 +103,6 @@ void Auton3() //blue, opposing side
     pros::lcd::set_text(1, "Auton 3 running!");
 
     AutoCatapult(1);
-
-    //second triball grabby and throwy here
-
-    //turn towards elevation bar
-    DriveTrain(50,-50,50,-50);
-    pros::delay(500);
-    //move forwards
-    DriveTrain(50,50,50,50);
-    pros::delay(500);
-    //STOP GORDON
-    DriveTrain(0,0,0,0);
 }
 
 void Auton4() //red, opposing side
@@ -108,17 +110,6 @@ void Auton4() //red, opposing side
     pros::lcd::set_text(1, "Auton 4 running!");
 
     AutoCatapult(1);
-
-    //second triball grabby and throwy here
-
-    //turn towards elevation bar
-    DriveTrain-(50,50,-50,50);
-    pros::delay(500);
-    //move forwards
-    DriveTrain(50,50,50,50);
-    pros::delay(500);
-    //STOP GORDON
-    DriveTrain(0,0,0,0);
 }
 
 
