@@ -1,7 +1,7 @@
 #include "main.h"
 #include "autons.h"
 
-#define SPEED 0.5
+#define SPEED 1
 
 //TODO
 //---------------------------------------------------------------------
@@ -144,23 +144,30 @@ void opcontrol() {
 	
 	//gotta move a lot of this stuff to initialize() function, and also use proper #define for the port numbers
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor left_mtr(15);
-	pros::Motor right_mtr(11);
-	pros::Motor left_mtr2(20);
-	pros::Motor right_mtr2(13);
+	pros::Motor left_mtr(9);
+	pros::Motor right_mtr(8);
+	pros::Motor left_mtr2(6);
+	pros::Motor right_mtr2(7);
 
-	pros::Motor cata_mtr(17);
+	pros::Motor lift_mtr(20);
+
+	pros::Motor cata_mtr(10);
+
+	pros::ADIDigitalOut piston('A');
+	bool pistonState = true;
+	piston.set_value(pistonState);
+	pistonState = !pistonState;
 
 	while (true) {
 				pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
-		int forward = master.get_analog(ANALOG_RIGHT_X);
-    	int side = master.get_analog(ANALOG_LEFT_Y);
-		int left = (forward - side) * SPEED;
-		int right = (forward + side) * SPEED;
-		left_mtr.move(left); 
-		right_mtr.move(right);
+		int side = master.get_analog(ANALOG_RIGHT_X);
+    	int forward = master.get_analog(ANALOG_LEFT_Y);
+		int left = (forward + side) * SPEED;
+		int right = (-forward + side) * SPEED;
+		left_mtr.move(right); 
+		right_mtr.move(left);
 		left_mtr2.move(left);
 		right_mtr2.move(right); //once again, need to retune the basic motor stuff
 				
@@ -171,6 +178,25 @@ void opcontrol() {
 		else
 		{
 			cata_mtr.move(0);
+		}
+
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y))
+		{
+			piston.set_value(pistonState);
+			pistonState != pistonState;
+		}
+
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
+		{
+			lift_mtr.move(-100);
+		}
+		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN))
+		{
+			lift_mtr.move(100);
+		}
+		else
+		{
+			lift_mtr.move(0);
 		}
 
 		pros::delay(20); 
