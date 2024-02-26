@@ -3,16 +3,15 @@
 
 #define SPEED 1
 
-//TODO
-//---------------------------------------------------------------------
-//Auton selector for competition
-//Autons in general
-//**this will be a lot cleaner looking if we make a couple functions(like catapult stuff) to call during auton
-//**additionally we'll want to use a separate file for auton stuff -- DONE
-//**look into sensors for things like odom and whatnot, so we can make our bot track better
-//**Grant once again pulls through with a few videos on basic auton
-//PID control loop, there's a video on grant's website explaining them
-//
+//Driver control features:
+	//Change speed of chassis
+	//look into smoother controls
+	//
+//Auton features
+	//fulfill auton goal
+	//score multiple points with actual auton
+	//PID
+
 
 int autonMode = 0;
 
@@ -155,6 +154,7 @@ void opcontrol() {
 
 	pros::ADIDigitalOut piston('A');
 	bool pistonState = true;
+	float speedmod = 1;
 	piston.set_value(pistonState);
 	pistonState = !pistonState;
 
@@ -162,10 +162,13 @@ void opcontrol() {
 				pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
-		int side = master.get_analog(ANALOG_RIGHT_X);
-    	int forward = master.get_analog(ANALOG_LEFT_Y);
-		int left = (forward + side) * SPEED;
-		int right = (-forward + side) * SPEED;
+
+
+
+		int side = pow(master.get_analog(ANALOG_RIGHT_X),3);
+    	int forward = pow(master.get_analog(ANALOG_LEFT_Y),3);
+		int left = (forward - side) * SPEED* speedmod;
+		int right = (-forward - side) * SPEED* speedmod;
 		left_mtr.move(right); 
 		right_mtr.move(left);
 		left_mtr2.move(left);
@@ -197,6 +200,18 @@ void opcontrol() {
 		else
 		{
 			lift_mtr.move(0);
+		}
+
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
+		{
+			if (speedmod == 1)
+			{
+				speedmod = 0.5;
+			}
+			else
+			{
+				speedmod = 1;
+			}
 		}
 
 		pros::delay(20); 
