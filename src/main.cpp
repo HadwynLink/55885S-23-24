@@ -1,8 +1,6 @@
 #include "main.h"
 #include "autons.h"
 
-#define SPEED 1
-
 //Driver control features:
 	//Change speed of chassis
 	//look into smoother controls
@@ -165,10 +163,10 @@ void opcontrol() {
 
 
 
-		int side = pow(master.get_analog(ANALOG_RIGHT_X),3);
-    	int forward = pow(master.get_analog(ANALOG_LEFT_Y),3);
-		int left = (forward - side) * SPEED* speedmod;
-		int right = (-forward - side) * SPEED* speedmod;
+		int side = pow((master.get_analog(ANALOG_RIGHT_X)),1);
+    	int forward = pow((master.get_analog(ANALOG_LEFT_Y)),1);
+		int left = (forward - side) * speedmod;
+		int right = (-forward - side) * speedmod;
 		left_mtr.move(right); 
 		right_mtr.move(left);
 		left_mtr2.move(left);
@@ -204,7 +202,7 @@ void opcontrol() {
 
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
 		{
-			if (speedmod == 1)
+			if(speedmod == 1)
 			{
 				speedmod = 0.5;
 			}
