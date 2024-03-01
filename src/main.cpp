@@ -151,7 +151,7 @@ void opcontrol() {
 	pros::Motor cata_mtr(10);
 
 	pros::ADIDigitalOut piston('A');
-	bool pistonState = true;
+	bool pistonState = false;
 	float speedmod = 1;
 	piston.set_value(pistonState);
 	pistonState = !pistonState;
@@ -172,35 +172,48 @@ void opcontrol() {
 		left_mtr2.move(left);
 		right_mtr2.move(right); //once again, need to retune the basic motor stuff
 				
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A))
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT))
 		{
 			cata_mtr.move(-100);
+		}
+		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT))
+		{
+			cata_mtr.move(100);
 		}
 		else
 		{
 			cata_mtr.move(0);
 		}
 
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y))
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y))
 		{
 			piston.set_value(pistonState);
-			pistonState != pistonState;
+			pistonState = !pistonState;
+			if(pistonState == false)
+			{
+				pros::lcd::set_text(1, "FALSE!");
+			}
+		    else if(pistonState == true)
+			{
+				pros::lcd::set_text(1, "true!");
+			}
+
 		}
 
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
 		{
-			lift_mtr.move(-100);
+			lift_mtr.move(100);
 		}
 		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN))
 		{
-			lift_mtr.move(100);
+			lift_mtr.move(-100);
 		}
 		else
 		{
 			lift_mtr.move(0);
 		}
 
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1))
 		{
 			if(speedmod == 1)
 			{
