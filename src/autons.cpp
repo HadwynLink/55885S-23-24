@@ -80,6 +80,18 @@ void Auton1() //blue, goal side
     pros::delay(500);
     //STOP GORDON
     DriveTrain(0,0,0,0);
+
+    //propel blue triball towards goal with intake
+    //turn 45 degrees to the left
+    //move 2 squares
+    //turn 45 degrees
+    //move half a tile
+    //grab triball
+    //turn 135 degrees right
+    //propel triball towards goal
+    //turn 180 degrees, move forward 1 tile, and grab the other triball
+    //turn another 180 and propel triball
+    
 }
 
 void Auton2() //red, goal side

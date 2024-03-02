@@ -189,22 +189,13 @@ void opcontrol() {
 		{
 			piston.set_value(pistonState);
 			pistonState = !pistonState;
-			if(pistonState == false)
-			{
-				pros::lcd::set_text(1, "FALSE!");
-			}
-		    else if(pistonState == true)
-			{
-				pros::lcd::set_text(1, "true!");
-			}
-
 		}
 
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
 		{
 			lift_mtr.move(100);
 		}
-		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN))
+		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 		{
 			lift_mtr.move(-100);
 		}
@@ -219,11 +210,15 @@ void opcontrol() {
 			{
 				speedmod = 0.5;
 			}
-			else
+		}
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2))
+		{
+			if(speedmod == 0.5)
 			{
 				speedmod = 1;
 			}
 		}
+
 
 		pros::delay(20); 
 	}
