@@ -25,7 +25,7 @@ void on_center_button() {
 	pressed = !pressed;
 	if (pressed) {
 		autonMode++;
-		if (autonMode == 4)
+		if (autonMode == 5)
 		{
 			autonMode = 0;
 		}
@@ -42,6 +42,9 @@ void on_center_button() {
 			break;
 		case 3:
 			pros::lcd::set_text(2, "Current Auton: Red Offense");
+			break;
+		case 4:
+			pros::lcd::set_text(2, "Current Auton: Auton Skills");
 			break;
 		default:
 			break;
@@ -120,6 +123,10 @@ void autonomous()
 	{
 		Auton4();
 	}
+	else if (autonMode == 4)
+	{
+		AutonSkills();
+	}
 	
 
 }
@@ -172,11 +179,11 @@ void opcontrol() {
 		left_mtr2.move(left);
 		right_mtr2.move(right); //once again, need to retune the basic motor stuff
 				
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT))
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
 		{
 			cata_mtr.move(-100);
 		}
-		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT))
+		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 		{
 			cata_mtr.move(100);
 		}
@@ -191,11 +198,11 @@ void opcontrol() {
 			pistonState = !pistonState;
 		}
 
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
 		{
 			lift_mtr.move(100);
 		}
-		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
+		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN))
 		{
 			lift_mtr.move(-100);
 		}

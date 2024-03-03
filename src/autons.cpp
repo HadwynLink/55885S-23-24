@@ -22,16 +22,6 @@
 
     pros::Motor cata_mtr(17);
 
-void AutoCatapult(int count)
-{
-    for (int i = 0; i < count; i++)
-    {
-        cata_mtr.move(-100);
-        pros::delay(1250);
-        cata_mtr.move(0);
-        pros::delay(100);
-    }
-}
 void DriveTrain(double LF, double RF, double LB, double RB)
 {
     left_mtr.move(LF);
@@ -113,20 +103,21 @@ void Auton2() //red, goal side
 void Auton3() //blue, opposing side
 {
     pros::lcd::set_text(1, "Auton 3 running!");
-
-    AutoCatapult(1);
 }
 
 void Auton4() //red, opposing side
 {
     pros::lcd::set_text(1, "Auton 4 running!");
-
-    AutoCatapult(1);
 }
 
 
 
 void AutonSkills()
 {
-    AutoCatapult(10);
+    //back up slightly
+    //extend lift - or maybe not if we're trying to push them in later
+    //turn on the flywheel
+    //wait for like 45 seconds while we matchload super fast
+    //turn off flywheel
+    //move forwards 
 }

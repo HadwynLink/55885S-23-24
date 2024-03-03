@@ -5,3 +5,4 @@ void Auton1();
 void Auton2();
 void Auton3();
 void Auton4();
+void AutonSkills();
