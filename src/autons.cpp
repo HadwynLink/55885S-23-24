@@ -15,12 +15,14 @@
     //2. score your team triball in your goal
     //3. end the auton by touching the elevation bar
 
-    pros::Motor left_mtr(11);
-    pros::Motor right_mtr(15);
-    pros::Motor left_mtr2(13);
-    pros::Motor right_mtr2(20);
+	pros::Motor left_mtr(9);
+	pros::Motor right_mtr(8);
+	pros::Motor left_mtr2(6);
+	pros::Motor right_mtr2(7);
 
-    pros::Motor cata_mtr(17);
+	pros::Motor lift_mtr(20);
+
+	pros::Motor cata_mtr(10);
 
 void DriveTrain(double LF, double RF, double LB, double RB)
 {
@@ -40,12 +42,12 @@ void DriveRot(float degrees, double speed)
 void Auton0() //Calibration Auton
 {
     //Move 1 tile back
-    DriveTrain(50,-50,50,-50);
+    DriveTrain(100,-100,-100,100);
     pros::delay(600);
     DriveTrain(0,0,0,0);
     pros::delay(500);
     //Move 1 tile forward
-    DriveTrain(-50,50,-50,50);
+    DriveTrain(-100,100,100,-100);
     pros::delay(600);
     DriveTrain(0,0,0,0);
     pros::delay(500);
@@ -61,15 +63,34 @@ void Auton0() //Calibration Auton
     pros::delay(500);
 }
 
-void Auton1() //blue, goal side
+void Auton1() //blue, goal side: 10 points
 {
-    pros::lcd::set_text(1, "Auton 1 running!");
+    pros::lcd::set_text(1, "Offense running!");
 
     //forward 1 tile
-    DriveTrain(-127,127,-127,127);
+    cata_mtr.move(-127);
     pros::delay(500);
-    //STOP GORDON
+    //DriveTrain(-100,100,100,-100);
+    cata_mtr.move(0);
+    DriveTrain(100,-100,-100,100);
+    pros::delay(200);
     DriveTrain(0,0,0,0);
+    pros::delay(500);
+    DriveTrain(-100,100,100,-100);
+    pros::delay(1000);
+    DriveTrain(100,100,100,100);
+    pros::delay(500);
+    DriveTrain(-100,100,100,-100);
+    cata_mtr.move(127);
+    pros::delay(1500);
+    DriveTrain(100,-100,-100,100);
+    pros::delay(500);
+    DriveTrain(0,0,0,0);
+    pros::delay(100);
+    DriveTrain(-100,-100,-100,-100);
+    pros::delay(650);
+    DriveTrain(0,0,0,0);
+    cata_mtr.move(-127);
 
     //propel blue triball towards goal with intake
     //turn 45 degrees to the left
@@ -81,43 +102,113 @@ void Auton1() //blue, goal side
     //propel triball towards goal
     //turn 180 degrees, move forward 1 tile, and grab the other triball
     //turn another 180 and propel triball
-    
+    pros::delay(500);
+    DriveTrain(0,0,0,0);
+    cata_mtr.move(0);
 }
 
-void Auton2() //red, goal side
+void Auton2() //red, goal side: 10 points
 {
-    pros::lcd::set_text(1, "Auton 2 running!");
+    pros::lcd::set_text(1, "Red Offense running!");
 
     //forward 1 tile
-    DriveTrain(-127,127,-127,127);
+    cata_mtr.move(-127);
     pros::delay(500);
-    //STOP GORDON
+    //DriveTrain(-100,100,100,-100);
+    cata_mtr.move(0);
+    DriveTrain(100,-100,-100,100);
+    pros::delay(200);
     DriveTrain(0,0,0,0);
+    pros::delay(500);
+    DriveTrain(-100,100,100,-100);
+    pros::delay(1000);
+    DriveTrain(100,100,100,100);
+    pros::delay(500);
+    DriveTrain(-100,100,100,-100);
+    cata_mtr.move(127);
+    pros::delay(1500);
+    DriveTrain(100,-100,-100,100);
+    pros::delay(500);
+    DriveTrain(0,0,0,0);
+    pros::delay(100);
+    DriveTrain(-100,-100,-100,-100);
+    pros::delay(650);
+    DriveTrain(0,0,0,0);
+    cata_mtr.move(-127);
 
-    //push alliance triball into goal beside you
-    //back up and grab second triball
-    //drop second triball into the general field
-    //move to elevation bar
+    //propel blue triball towards goal with intake
+    //turn 45 degrees to the left
+    //move 2 squares
+    //turn 45 degrees
+    //move half a tile
+    //grab triball
+    //turn 135 degrees right
+    //propel triball towards goal
+    //turn 180 degrees, move forward 1 tile, and grab the other triball
+    //turn another 180 and propel triball
+    pros::delay(500);
+    DriveTrain(0,0,0,0);
+    cata_mtr.move(0);
 }
 
-void Auton3() //blue, opposing side
+void Auton3() //blue, opposing side: 7 points
 {
-    pros::lcd::set_text(1, "Auton 3 running!");
+    pros::lcd::set_text(1, "Defense running!");
+    cata_mtr.move(-127);
+    pros::delay(500);
+    //DriveTrain(-100,100,100,-100);
+    cata_mtr.move(0);
+    DriveTrain(100,-100,-100,100);
+    pros::delay(200);
+    DriveTrain(0,0,0,0);
+    pros::delay(100);
+    DriveTrain(-100,-100,-100,-100);
+    pros::delay(500);
+    DriveTrain(0,0,0,0);
+    pros::delay(100);
+    DriveTrain(-100,100,100,-100);
+    cata_mtr.move(-127);
+    pros::delay(1000);
+    DriveTrain(0,0,0,0);
+    cata_mtr.move(0);
 }
 
-void Auton4() //red, opposing side
+void Auton4() //red, opposing side: 7 points
 {
-    pros::lcd::set_text(1, "Auton 4 running!");
+    pros::lcd::set_text(1, "Red defense running!");
+    cata_mtr.move(-127);
+    pros::delay(500);
+    //DriveTrain(-100,100,100,-100);
+    cata_mtr.move(0);
+    DriveTrain(100,-100,-100,100);
+    pros::delay(200);
+    DriveTrain(0,0,0,0);
+    pros::delay(100);
+    DriveTrain(-100,-100,-100,-100);
+    pros::delay(500);
+    DriveTrain(0,0,0,0);
+    pros::delay(100);
+    DriveTrain(-100,100,100,-100);
+    cata_mtr.move(-127);
+    pros::delay(1000);
+    DriveTrain(0,0,0,0);
+    cata_mtr.move(0);
 }
 
 
 
 void AutonSkills()
 {
-    //back up slightly
-    //extend lift - or maybe not if we're trying to push them in later
-    //turn on the flywheel
-    //wait for like 45 seconds while we matchload super fast
-    //turn off flywheel
-    //move forwards 
+    pros::lcd::set_text(1, "Auton Skills running!");
+
+    DriveTrain(100,-100,-100,100);
+    pros::delay(200);
+    DriveTrain(0,0,0,0);
+    cata_mtr.move(127);
+    pros::delay(80000);
+    cata_mtr.move(0);
+    DriveTrain(-100,100,100,-100);
+    pros::delay(3000);
+    DriveTrain(0,0,0,0);
+    cata_mtr.move(0);
 }

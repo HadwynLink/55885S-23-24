@@ -25,25 +25,19 @@ void on_center_button() {
 	pressed = !pressed;
 	if (pressed) {
 		autonMode++;
-		if (autonMode == 5)
+		if (autonMode == 3)
 		{
 			autonMode = 0;
 		}
 		switch (autonMode)
 		{
 		case 0:
-			pros::lcd::set_text(2, "Current Auton: Blue Offense");
+			pros::lcd::set_text(2, "Current Auton: Offense");
 			break;
 		case 1:
-			pros::lcd::set_text(2, "Current Auton: Red Offense");
+			pros::lcd::set_text(2, "Current Auton: Defense");
 			break;
 		case 2:
-			pros::lcd::set_text(2, "Current Auton: Blue Defense");
-			break;
-		case 3:
-			pros::lcd::set_text(2, "Current Auton: Red Offense");
-			break;
-		case 4:
 			pros::lcd::set_text(2, "Current Auton: Auton Skills");
 			break;
 		default:
@@ -63,7 +57,7 @@ void on_center_button() {
  */
 void initialize() {
 	pros::lcd::initialize();
-	pros::lcd::set_text(1, "strokama!");
+	pros::lcd::set_text(1, "Current Auton: Offense");
 
 
 	pros::lcd::register_btn1_cb(on_center_button);
@@ -113,17 +107,9 @@ void autonomous()
 	}
 	else if (autonMode == 1)
 	{
-		Auton2();
-	}
-	else if (autonMode == 2)
-	{
 		Auton3();
 	}
-	else if (autonMode == 3)
-	{
-		Auton4();
-	}
-	else if (autonMode == 4)
+	else if (autonMode == 2)
 	{
 		AutonSkills();
 	}
@@ -181,11 +167,11 @@ void opcontrol() {
 				
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
 		{
-			cata_mtr.move(-100);
+			cata_mtr.move(127);
 		}
 		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 		{
-			cata_mtr.move(100);
+			cata_mtr.move(-127);
 		}
 		else
 		{
@@ -211,14 +197,14 @@ void opcontrol() {
 			lift_mtr.move(0);
 		}
 
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1))
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2))
 		{
 			if(speedmod == 1)
 			{
 				speedmod = 0.5;
 			}
 		}
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2))
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1))
 		{
 			if(speedmod == 0.5)
 			{
