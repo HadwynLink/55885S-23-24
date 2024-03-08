@@ -202,12 +202,15 @@ void AutonSkills()
     pros::lcd::set_text(1, "Auton Skills running!");
 
     DriveTrain(100,-100,-100,100);
-    pros::delay(200);
+    pros::delay(300);
     DriveTrain(0,0,0,0);
+    lift_mtr.move(100);
+    pros::delay(1750);
+    lift_mtr.move(0);
     cata_mtr.move(127);
-    pros::delay(80000);
+    pros::delay(90000);
     cata_mtr.move(0);
-    DriveTrain(-100,100,100,-100);
+    //DriveTrain(-100,100,100,-100);
     pros::delay(3000);
     DriveTrain(0,0,0,0);
     cata_mtr.move(0);
